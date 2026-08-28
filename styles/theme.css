@@ -1,0 +1,95 @@
+/* ══════════════════════════════════════════════════════════════
+   div & diya dungeon — design tokens
+   "sticker-book sweetheart": a shared scrapbook, puffy stickers,
+   washi tape, cream paper. diya = rose · divyam = periwinkle.
+   ══════════════════════════════════════════════════════════════ */
+
+@font-face {
+  font-family: 'Fredoka';
+  font-style: normal;
+  font-weight: 300 700;
+  font-display: swap;
+  src: url('../assets/fonts/fredoka-var.woff2') format('woff2');
+}
+@font-face {
+  font-family: 'Gaegu';
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url('../assets/fonts/gaegu-400.woff2') format('woff2');
+}
+@font-face {
+  font-family: 'Gaegu';
+  font-style: normal;
+  font-weight: 700;
+  font-display: swap;
+  src: url('../assets/fonts/gaegu-700.woff2') format('woff2');
+}
+
+:root {
+  /* ── paper & ink ─────────────────────────────── */
+  --paper: #FFF7F0;
+  --paper-dot: #F2DFD6;
+  --paper-deep: #FBEEE4;
+  --card: #FFFFFF;
+  --ink: #53333E;
+  --ink-soft: #8A6470;
+  --ink-faint: #BEA0AA;
+
+  /* ── players ─────────────────────────────────── */
+  --rose: #F0699A;        /* diya */
+  --rose-deep: #C94D7C;
+  --rose-soft: #FFD7E4;
+  --rose-ghost: #FFEFF5;
+  --peri: #6E8FE0;        /* divyam */
+  --peri-deep: #4E6BBF;
+  --peri-soft: #D9E3FB;
+  --peri-ghost: #EFF3FD;
+
+  /* ── accents ─────────────────────────────────── */
+  --butter: #FFDFA6;
+  --butter-deep: #E89B2D;
+  --mint: #9FD8C0;
+  --mint-deep: #2F8F6B;
+  --mint-ghost: #EDF9F3;
+  --coral: #E8747C;
+  --coral-deep: #C4525A;
+  --coral-ghost: #FDEFF0;
+
+  /* ── type ────────────────────────────────────── */
+  --font-round: 'Fredoka', 'Trebuchet MS', system-ui, sans-serif;
+  --font-hand: 'Gaegu', 'Segoe Print', cursive;
+
+  /* ── shape ───────────────────────────────────── */
+  --r-lg: 22px;
+  --r-md: 16px;
+  --r-sm: 10px;
+  --r-pill: 999px;
+
+  /* ── elevation ───────────────────────────────── */
+  --shadow-puff: 0 3px 0 rgba(83, 51, 62, .10), 0 12px 24px -10px rgba(83, 51, 62, .18);
+  --shadow-soft: 0 6px 16px -6px rgba(83, 51, 62, .14);
+  --shadow-press: 0 1px 0 rgba(83, 51, 62, .10), 0 4px 10px -6px rgba(83, 51, 62, .12);
+  --shadow-float: 0 18px 40px -14px rgba(83, 51, 62, .26);
+
+  /* ── motion ──────────────────────────────────── */
+  --bounce: cubic-bezier(.34, 1.56, .64, 1);
+  --ease: cubic-bezier(.22, .9, .35, 1);
+  --t-fast: 160ms;
+  --t-med: 280ms;
+  --t-slow: 460ms;
+}
+
+/* per-viewer mapping: "me" vs "them" colors, set on <body data-me="…"> */
+body[data-me="diya"] {
+  --me: var(--rose); --me-deep: var(--rose-deep); --me-soft: var(--rose-soft); --me-ghost: var(--rose-ghost);
+  --them: var(--peri); --them-deep: var(--peri-deep); --them-soft: var(--peri-soft); --them-ghost: var(--peri-ghost);
+}
+body[data-me="divyam"], body:not([data-me]) {
+  --me: var(--peri); --me-deep: var(--peri-deep); --me-soft: var(--peri-soft); --me-ghost: var(--peri-ghost);
+  --them: var(--rose); --them-deep: var(--rose-deep); --them-soft: var(--rose-soft); --them-ghost: var(--rose-ghost);
+}
+
+/* fixed player colors (independent of who is viewing) */
+.p-diya   { --p: var(--rose); --p-deep: var(--rose-deep); --p-soft: var(--rose-soft); --p-ghost: var(--rose-ghost); }
+.p-divyam { --p: var(--peri); --p-deep: var(--peri-deep); --p-soft: var(--peri-soft); --p-ghost: var(--peri-ghost); }

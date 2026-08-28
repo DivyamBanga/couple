@@ -1,0 +1,120 @@
+/* ── reset ─────────────────────────────────────── */
+*, *::before, *::after { box-sizing: border-box; }
+* { margin: 0; }
+html { -webkit-text-size-adjust: 100%; }
+body {
+  font-family: var(--font-round);
+  font-weight: 420;
+  color: var(--ink);
+  background-color: var(--paper);
+  background-image:
+    radial-gradient(1200px 600px at -10% -10%, var(--rose-ghost) 0%, transparent 55%),
+    radial-gradient(1000px 560px at 110% -6%, var(--peri-ghost) 0%, transparent 50%),
+    radial-gradient(var(--paper-dot) 1.1px, transparent 1.4px);
+  background-size: auto, auto, 19px 19px;
+  min-height: 100dvh;
+  line-height: 1.45;
+  overflow-x: hidden;
+  -webkit-tap-highlight-color: transparent;
+}
+img, svg, canvas { display: block; max-width: 100%; }
+button, input, textarea, select { font: inherit; color: inherit; }
+button { cursor: pointer; border: 0; background: none; padding: 0; }
+a { color: inherit; }
+h1, h2, h3 { line-height: 1.15; font-weight: 600; }
+p { overflow-wrap: break-word; }
+[hidden] { display: none !important; }
+
+:focus-visible {
+  outline: 3px solid var(--peri);
+  outline-offset: 2px;
+  border-radius: var(--r-sm);
+}
+
+::selection { background: var(--rose-soft); }
+
+/* ── app frame ─────────────────────────────────── */
+#app {
+  max-width: 1060px;
+  margin: 0 auto;
+  padding: 14px clamp(14px, 4vw, 28px) calc(30px + env(safe-area-inset-bottom));
+  min-height: 100dvh;
+  display: flex;
+  flex-direction: column;
+  position: relative;
+  z-index: 1;
+}
+
+/* screens fade-bounce in */
+.screen { animation: screen-in var(--t-med) var(--ease) both; }
+@keyframes screen-in {
+  from { opacity: 0; transform: translateY(10px); }
+  to   { opacity: 1; transform: none; }
+}
+
+/* ── background doodles ────────────────────────── */
+.deco { position: fixed; inset: 0; pointer-events: none; z-index: 0; }
+.deco span {
+  position: absolute;
+  font-size: 26px;
+  opacity: .5;
+  filter: saturate(.85);
+  animation: bob 6s ease-in-out infinite;
+}
+.deco span:nth-child(2n) { animation-duration: 7.5s; animation-delay: -2s; }
+.deco span:nth-child(3n) { animation-duration: 9s; animation-delay: -4s; }
+@keyframes bob {
+  0%, 100% { transform: translateY(0) rotate(-6deg); }
+  50%      { transform: translateY(-12px) rotate(6deg); }
+}
+@media (max-width: 720px) { .deco span.deco-wide { display: none; } }
+
+/* ── typography helpers ────────────────────────── */
+.hand { font-family: var(--font-hand); font-weight: 400; }
+.title-xl { font-size: clamp(28px, 6vw, 40px); font-weight: 620; letter-spacing: -.5px; }
+.title-lg { font-size: clamp(22px, 5vw, 30px); font-weight: 600; }
+.title-md { font-size: 19px; font-weight: 600; }
+.sub { color: var(--ink-soft); }
+.faint { color: var(--ink-faint); }
+.small { font-size: 13.5px; }
+.center-text { text-align: center; }
+
+/* ── layout utils ──────────────────────────────── */
+.stack { display: flex; flex-direction: column; }
+.row { display: flex; align-items: center; }
+.wrap { flex-wrap: wrap; }
+.grow { flex: 1 1 auto; }
+.center { display: flex; align-items: center; justify-content: center; }
+.gap-xs { gap: 6px; } .gap-sm { gap: 10px; } .gap-md { gap: 16px; } .gap-lg { gap: 24px; }
+.mt-sm { margin-top: 10px; } .mt-md { margin-top: 18px; } .mt-lg { margin-top: 28px; }
+.hide-scroll { scrollbar-width: none; }
+.hide-scroll::-webkit-scrollbar { display: none; }
+
+/* ── washi tape section headers ────────────────── */
+.washi {
+  display: inline-block;
+  position: relative;
+  padding: 3px 18px 4px;
+  font-weight: 600;
+  font-size: 15px;
+  color: var(--ink);
+  transform: rotate(-1.4deg);
+}
+.washi::before {
+  content: '';
+  position: absolute; inset: 0;
+  background: repeating-linear-gradient(115deg,
+    var(--washi-a, var(--rose-soft)) 0 9px,
+    var(--washi-b, #ffe3ec) 9px 18px);
+  opacity: .75;
+  border-left: 2px dashed rgba(255, 255, 255, .8);
+  border-right: 2px dashed rgba(255, 255, 255, .8);
+  z-index: -1;
+}
+.washi--peri { --washi-a: var(--peri-soft); --washi-b: #e6edfc; }
+.washi--butter { --washi-a: var(--butter); --washi-b: #ffedc9; }
+.washi--mint { --washi-a: var(--mint); --washi-b: #d7f0e5; }
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { animation-duration: .01ms !important; animation-iteration-count: 1 !important; transition-duration: .01ms !important; }
+}
