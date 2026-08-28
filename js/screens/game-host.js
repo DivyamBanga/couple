@@ -45,6 +45,8 @@ async function engineMount(el, mod, g, session) {
       const { mountCanvas } = await import('../engines/canvas/engine.js');
       return mountCanvas(el, mod, g, session);
     }
+    case 'custom':
+      return mod.mountCustom(el, g, session);
     case 'viewer':
       return mod.mountViewer(el, g);
     default:

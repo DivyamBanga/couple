@@ -18,9 +18,9 @@ export const GAMES = [
   { id: 'dotsboxes',  name: 'dots & boxes',      emoji: '✏️', tagline: 'steal every square',      mood: 'battle', engine: 'turnbased', status: 'ready', load: () => import('./dotsboxes/game.js') },
   { id: 'gomoku',     name: 'five in a row',     emoji: '⭐', tagline: 'line em up',              mood: 'battle', engine: 'turnbased', status: 'ready', load: () => import('./gomoku/game.js') },
   { id: 'memory',     name: 'memory match',      emoji: '🍓', tagline: 'who forgot what',         mood: 'battle', engine: 'turnbased', status: 'ready', load: () => import('./memory/game.js') },
-  { id: 'wordhunt',   name: 'word hunt',         emoji: '🔍', tagline: 'same board, more words',  mood: 'battle', engine: 'timed',     status: 'soon', load: () => import('./wordhunt/game.js') },
-  { id: 'anagrams',   name: 'letter scramble',   emoji: '🔤', tagline: '60 seconds of chaos',     mood: 'battle', engine: 'timed',     status: 'soon', load: () => import('./anagrams/game.js') },
-  { id: 'wordleduel', name: 'word duel',         emoji: '🟩', tagline: 'i picked your word',      mood: 'battle', engine: 'timed',     status: 'soon', load: () => import('./wordleduel/game.js') },
+  { id: 'wordhunt',   name: 'word hunt',         emoji: '🔍', tagline: 'same board, more words',  mood: 'battle', engine: 'timed',     status: 'ready', load: () => import('./wordhunt/game.js') },
+  { id: 'anagrams',   name: 'letter scramble',   emoji: '🔤', tagline: '60 seconds of chaos',     mood: 'battle', engine: 'timed',     status: 'ready', load: () => import('./anagrams/game.js') },
+  { id: 'wordleduel', name: 'word duel',         emoji: '🟩', tagline: 'i picked your word',      mood: 'battle', engine: 'custom',    status: 'ready', load: () => import('./wordleduel/game.js') },
 
   // ── cozy 🛋️ ─────────────────────────────────────────────────
   { id: 'newlywed',   name: 'do you know me?',   emoji: '💍', tagline: 'prove it.',               mood: 'cozy',   engine: 'reveal',    status: 'ready', load: () => import('./newlywed/game.js') },

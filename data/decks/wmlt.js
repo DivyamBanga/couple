@@ -26,7 +26,7 @@ export default {
     { id: 'wmlt-022', text: 'build a spreadsheet for the honeymoon' },
     { id: 'wmlt-023', text: "become the neighborhood's favorite person" },
     { id: 'wmlt-024', text: "text 'we need to talk' about a snack" },
-    { id: 'wmlt-025', text: 'tear up over an old photo' },
+    { id: 'wmlt-025', text: "get emotionally invested in two strangers' argument at the next table" },
     { id: 'wmlt-026', text: 'carry a trivia night singlehandedly' },
     { id: 'wmlt-027', text: "look everywhere for the keys they're already holding" },
     { id: 'wmlt-028', text: 'adopt a hobby with full equipment for exactly eleven days' },
