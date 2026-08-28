@@ -5,6 +5,10 @@ import { h, clear } from './core/ui/dom.js';
 import { connection } from './sync/connection.js';
 import { initTabLock, takeover } from './sync/tab-lock.js';
 
+import { initGlobalUI } from './screens/global-ui.js';
+import { invites, sendInvite, acceptInvite, declineInvite, cancelInvite } from './session/invites.js';
+import { sendNudge } from './session/nudges.js';
+import { addRecord, recordList, mergeRecords } from './scoreboard/log.js';
 import identityScreen from './screens/identity.js';
 import homeScreen from './screens/home.js';
 import gameHostScreen from './screens/game-host.js';
@@ -20,7 +24,7 @@ if (me) document.body.dataset.me = me;
 if (isTest()) {
   document.body.append(h('div', { class: 'test-badge' }, `test · ${me ?? '?'}`));
   // E2E harness hook — only exists in ?as= test tabs
-  window.__cpl = { connection, store, whoAmI };
+  window.__cpl = { connection, store, whoAmI, invites, sendInvite, acceptInvite, declineInvite, cancelInvite, sendNudge, addRecord, recordList, mergeRecords };
 }
 
 register('identity', identityScreen);
@@ -56,6 +60,7 @@ const lockState = await initTabLock({
 if (lockState === 'passive') {
   showPassiveScreen();
 } else {
+  initGlobalUI();
   startRouter(document.getElementById('app'));
   // start sync as soon as we know who this device belongs to
   if (whoAmI()) connection.ensureStarted();

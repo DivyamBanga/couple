@@ -1,7 +1,11 @@
-import { h, clear } from '../core/ui/dom.js';
-import { whoAmI, partnerOf, nameOf, emojiOf } from '../core/identity.js';
+import { h, clear, heartBurst } from '../core/ui/dom.js';
+import { whoAmI, nameOf } from '../core/identity.js';
 import { GAMES, MOODS } from '../games/registry.js';
 import { navigate } from '../router.js';
+import { createPresencePill } from '../core/ui/presence-pill.js';
+import { connection } from '../sync/connection.js';
+import { sendNudge } from '../session/nudges.js';
+import { toast } from '../core/ui/toast.js';
 
 let unsub = [];
 
@@ -30,17 +34,12 @@ function tile(g) {
 export default {
   mount(el) {
     const me = whoAmI();
-    const partner = partnerOf(me);
     let mood = sessionStorage.getItem('cpl.mood') || 'all';
 
     // ── header ──────────────────────────────────────────────
-    const presenceSlot = h('span', { id: 'presence-slot' },
-      h('span', { class: `presence p-${partner}` },
-        h('span', { class: 'presence__avatar' }, emojiOf(partner)),
-        h('span', { class: 'presence__dot' }),
-        h('span', {}, `${nameOf(partner)} · offline`),
-      ),
-    );
+    const pill = createPresencePill();
+    unsub.push(pill.destroy);
+    const presenceSlot = h('span', {}, pill.el);
 
     const head = h('div', { class: 'row gap-sm', style: 'justify-content:space-between;align-items:flex-start;' },
       h('div', { class: 'stack' },
@@ -105,9 +104,21 @@ export default {
     );
 
     // ── footer ──────────────────────────────────────────────
+    const nudgeBtn = h('button', {
+      class: 'btn btn--round btn--me',
+      'aria-label': 'send a heart',
+      onclick: (e) => {
+        if (sendNudge('heart')) heartBurst(e.currentTarget, { count: 5 });
+        else if (!connection.partnerPresent()) toast(`${nameOf(me) === 'diya' ? 'divyam' : 'diya'} isn't here right now 💤`);
+      },
+    }, '💗');
+    const syncNudge = () => { nudgeBtn.disabled = !connection.partnerPresent(); };
+    unsub.push(connection.onPartner(syncNudge));
+    syncNudge();
+
     const footer = h('div', { class: 'row gap-sm mt-lg wrap', style: 'justify-content:center;' },
       h('button', { class: 'btn', onclick: () => navigate('scoreboard') }, '🏆 our rivalry'),
-      h('button', { id: 'nudge-btn', class: 'btn btn--round btn--me', 'aria-label': 'send a nudge', disabled: true, title: 'connects soon!' }, '💗'),
+      nudgeBtn,
     );
 
     el.append(h('div', { class: 'screen stack' },
