@@ -56,6 +56,17 @@ export default {
         hapticsBtn,
       ),
 
+      (!window.matchMedia('(display-mode: standalone)').matches ? rowCard(
+        h('span', { style: 'font-size:22px;' }, '📲'),
+        h('span', { class: 'stack grow' },
+          h('span', { style: 'font-weight:620;' }, 'put me on your home screen 🥰'),
+          h('span', { class: 'small sub' },
+            /iphone|ipad/i.test(navigator.userAgent)
+              ? 'share button → "Add to Home Screen" — it becomes a real app (and keeps your data safe from Safari cleanups)'
+              : 'browser menu → "Install app" / "Add to Home screen" — it becomes a real app'),
+        ),
+      ) : null),
+
       rowCard(
         h('span', { style: 'font-size:22px;' }, '🧹'),
         h('span', { class: 'stack grow' },

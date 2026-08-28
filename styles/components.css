@@ -271,7 +271,16 @@ textarea.input { resize: none; line-height: 1.4; }
   display: flex; align-items: center; gap: 10px;
   padding-bottom: 12px;
 }
-.game-head__title { font-weight: 620; font-size: 18px; letter-spacing: -.2px; }
+.game-head__title {
+  font-weight: 620;
+  font-size: 18px;
+  letter-spacing: -.2px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  min-width: 0;
+}
+.game-head .presence { flex-shrink: 0; }
 .back-btn {
   width: 44px; height: 44px;
   border-radius: 14px;

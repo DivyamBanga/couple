@@ -190,24 +190,27 @@ export default {
         zone.append(h('div', { class: 'small faint center-text' }, 'they\'re deciding…'));
       } else {
         const q = h('input', { class: 'input', placeholder: remaining > 0 ? 'ask a yes/no question…' : 'no questions left — guess!', maxlength: '120', autocomplete: 'off' });
+        // one mutable action so switching to guess-mode replaces (not stacks) the handler
+        let action = () => { if (q.value.trim()) ctx.submit({ k: 'ask', text: q.value }); };
         const askBtn = h('button', {
           class: 'btn btn--me', disabled: remaining <= 0,
-          onclick: () => { if (q.value.trim()) ctx.submit({ k: 'ask', text: q.value }); },
+          onclick: () => action(),
         }, 'ask');
-        const guessBtn = h('button', { class: 'btn btn--butter' }, 'final guess 🎯');
-        // inline guess flow: swap the ask row into a guess input
-        guessBtn.onclick = () => {
-          q.value = '';
-          q.placeholder = 'your FINAL guess…';
-          askBtn.textContent = 'guess!';
-          askBtn.disabled = false;
-          askBtn.onclick = () => { if (q.value.trim()) ctx.submit({ k: 'guess', text: q.value }); };
-          guessBtn.remove();
-          q.focus();
-        };
+        const guessBtn = h('button', {
+          class: 'btn btn--butter',
+          onclick: () => {
+            q.value = '';
+            q.placeholder = 'your FINAL guess…';
+            askBtn.textContent = 'guess!';
+            askBtn.disabled = false;
+            action = () => { if (q.value.trim()) ctx.submit({ k: 'guess', text: q.value }); };
+            guessBtn.remove();
+            q.focus();
+          },
+        }, 'final guess 🎯');
         q.addEventListener('keydown', (e) => { if (e.key === 'Enter') askBtn.click(); });
         zone.append(h('div', { class: 'stack gap-xs' }, q, h('div', { class: 'row gap-xs' }, askBtn, guessBtn)));
-        if (remaining <= 0) askBtn.disabled = true;
+        if (remaining <= 0) { askBtn.disabled = true; guessBtn.click(); }
       }
     }
   },

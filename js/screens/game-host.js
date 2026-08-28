@@ -15,6 +15,19 @@ import { createPresencePill } from '../core/ui/presence-pill.js';
 
 let inst = null; // current mount instance
 
+// keep the screen awake during games (iOS 16.4+/Android; silently no-ops elsewhere)
+let wakeLock = null;
+async function acquireWakeLock() {
+  try { wakeLock = await navigator.wakeLock?.request('screen'); } catch { /* fine */ }
+}
+function releaseWakeLock() {
+  try { wakeLock?.release(); } catch { /* fine */ }
+  wakeLock = null;
+}
+document.addEventListener('visibilitychange', () => {
+  if (document.visibilityState === 'visible' && inst?.mode === 'engine') acquireWakeLock();
+});
+
 function injectCss(id, css) {
   if (!css || document.querySelector(`style[data-game="${id}"]`)) return;
   const style = document.createElement('style');
@@ -170,6 +183,7 @@ export default {
       clear(el);
       if (session && session.status === 'active' && session.gameId === id) {
         i.mode = 'engine';
+        acquireWakeLock();
         const cl = await engineMount(el, mod, g, session);
         if (!i.alive) { try { cl?.(); } catch { /* ignore */ } return; }
         i.cleanup = cl;
@@ -197,6 +211,7 @@ export default {
   unmount() {
     if (!inst) return;
     inst.alive = false;
+    releaseWakeLock();
     try { inst.cleanup?.(); } catch (err) { console.error('[game-host] cleanup', err); }
     inst.unsubs.forEach((u) => u());
     inst = null;

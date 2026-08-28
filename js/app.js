@@ -52,6 +52,33 @@ function showPassiveScreen() {
   ));
 }
 
+// ── PWA service worker (prod only — dev stays cache-free) ─────
+if ('serviceWorker' in navigator && location.hostname.endsWith('github.io')) {
+  navigator.serviceWorker.register('./sw.js').then((reg) => {
+    reg.addEventListener('updatefound', () => {
+      const worker = reg.installing;
+      worker?.addEventListener('statechange', () => {
+        if (worker.state === 'installed' && navigator.serviceWorker.controller) {
+          const { toast } = { toast: null };
+          import('./core/ui/toast.js').then((m) => {
+            const t = m.toast('new version ✨ tap to update', { ms: 10_000 });
+            t.style.cursor = 'pointer';
+            t.addEventListener('click', () => worker.postMessage('SKIP_WAITING'));
+          });
+        }
+      });
+    });
+  }).catch((err) => console.warn('[sw] register failed', err));
+
+  let reloading = false;
+  navigator.serviceWorker.addEventListener('controllerchange', () => {
+    if (reloading) return;
+    reloading = true;
+    // never yank the rug mid-game — session screens reload on next visit
+    if (!currentSession()) location.reload();
+  });
+}
+
 const lockState = await initTabLock({
   onEvicted: () => {
     connection.goPassive();
