@@ -58,6 +58,7 @@ class Connection {
     if (this.#started || this.#passive || !whoAmI()) return;
     this.#started = true;
     this.#spinUp();
+    this.#startWatchdog();
 
     document.addEventListener('visibilitychange', () => {
       if (document.visibilityState !== 'visible' || this.#passive) return;
@@ -114,6 +115,30 @@ class Connection {
     this.#attempt++;
     clearTimeout(this.#reconnectTimer);
     this.#reconnectTimer = setTimeout(() => this.#spinUp(), delay);
+  }
+
+  // Public-relay subscriptions can silently decay after long idle, leaving
+  // us "online" but undiscoverable. While the partner is absent, periodically
+  // rejoin (with growing spacing) so both sides stay findable.
+  #watchdogTimer = null;
+  #absentSince = null;
+  #nextRejoinGap = 45_000;
+
+  #startWatchdog() {
+    this.#watchdogTimer = setInterval(() => {
+      if (this.#passive || !this.#started) return;
+      if (this.partnerPresent()) {
+        this.#absentSince = null;
+        this.#nextRejoinGap = 45_000;
+        return;
+      }
+      this.#absentSince ??= Date.now();
+      if (Date.now() - this.#absentSince >= this.#nextRejoinGap) {
+        this.#absentSince = Date.now();
+        this.#nextRejoinGap = Math.min(this.#nextRejoinGap * 2, 180_000);
+        this.forceReconnect('watchdog');
+      }
+    }, 15_000);
   }
 
   forceReconnect(reason = 'manual') {

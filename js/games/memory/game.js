@@ -15,15 +15,16 @@ export const logic = {
     if (by !== state.turn || move?.k !== 'flip') return null;
     const idx = move.idx;
     if (!Number.isInteger(idx) || idx < 0 || idx >= CARDS) return null;
-    if (state.matchedBy[idx] !== null || state.faceUp.includes(idx)) return null;
 
     let faceUp = [...state.faceUp];
+    if (faceUp.length === 2) faceUp = []; // previous mismatch clears on next action
+    // membership check AFTER the auto-clear: re-flipping a just-shown card is legal
+    if (state.matchedBy[idx] !== null || faceUp.includes(idx)) return null;
+
     const matchedBy = [...state.matchedBy];
     const scores = { ...state.scores };
     let turn = state.turn;
     let done = state.done;
-
-    if (faceUp.length === 2) faceUp = []; // previous mismatch clears on next action
 
     if (faceUp.length === 0) {
       faceUp = [idx];

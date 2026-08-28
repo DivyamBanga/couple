@@ -10,6 +10,7 @@ import { invites, sendInvite, acceptInvite, declineInvite, cancelInvite } from '
 import { sendNudge } from './session/nudges.js';
 import { addRecord, recordList, mergeRecords } from './scoreboard/log.js';
 import { currentSession, sessions } from './session/session.js';
+import './games/daily/store.js'; // daily-answer merge protocol must always be live
 import identityScreen from './screens/identity.js';
 import homeScreen from './screens/home.js';
 import gameHostScreen from './screens/game-host.js';

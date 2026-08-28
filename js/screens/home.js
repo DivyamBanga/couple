@@ -8,6 +8,8 @@ import { sendNudge } from '../session/nudges.js';
 import { toast } from '../core/ui/toast.js';
 import { currentSession } from '../session/session.js';
 import { gameById } from '../games/registry.js';
+import { getAnswer, streak, dailyEvents } from '../games/daily/store.js';
+import { partnerOf } from '../core/identity.js';
 
 let unsub = [];
 
@@ -69,23 +71,46 @@ export default {
       )
       : null;
 
-    // ── today strip ─────────────────────────────────────────
+    // ── today strip (live daily states) ─────────────────────
+    const partner = partnerOf(me);
     const dailies = GAMES.filter((g) => g.mood === 'daily');
-    const todayStrip = h('div', { class: 'stack gap-sm mt-lg' },
-      h('div', {}, h('span', { class: 'washi washi--butter' }, 'today ☀️')),
-      h('div', { class: 'row gap-sm hide-scroll', style: 'overflow-x:auto;padding:6px 2px 10px;align-items:stretch;' },
-        dailies.map((g) => h('button', {
+
+    const dailyStatus = (g) => {
+      if (g.status === 'soon') return { text: g.tagline, hot: false };
+      const mine = getAnswer(g.id, me);
+      const theirs = getAnswer(g.id, partner);
+      const n = streak(g.id);
+      const flame = n >= 2 ? ` · 🔥${n}` : '';
+      if (mine && theirs) return { text: `done for today ✓${flame}`, hot: false };
+      if (mine && !theirs) return { text: `waiting for ${nameOf(partner)} 💤`, hot: false };
+      if (!mine && theirs) return { text: `${nameOf(partner)} answered — your turn!! 👀`, hot: true };
+      return { text: g.tagline, hot: false };
+    };
+
+    const dailyRow = h('div', { class: 'row gap-sm hide-scroll', style: 'overflow-x:auto;padding:6px 2px 10px;align-items:stretch;' });
+    const renderDailies = () => {
+      clear(dailyRow);
+      dailies.forEach((g) => {
+        const s = dailyStatus(g);
+        dailyRow.append(h('button', {
           class: `sticker row gap-sm${g.status === 'soon' ? ' tile--soon' : ''}`,
-          style: 'padding:12px 16px;flex:0 0 auto;min-width:210px;position:relative;',
+          style: `padding:12px 16px;flex:0 0 auto;min-width:210px;position:relative;${s.hot ? 'border-color:var(--butter);animation:turn-glow 1.8s ease-in-out infinite;' : ''}`,
           onclick: () => navigate(`game/${g.id}`),
         },
           h('span', { style: 'font-size:26px;' }, g.emoji),
           h('span', { class: 'stack', style: 'text-align:left;' },
             h('span', { style: 'font-weight:620;font-size:15px;' }, g.name),
-            h('span', { class: 'hand sub', style: 'font-size:14px;line-height:1.1;' }, g.tagline),
+            h('span', { class: 'hand sub', style: 'font-size:14px;line-height:1.1;' }, s.text),
           ),
-        )),
-      ),
+        ));
+      });
+    };
+    renderDailies();
+    unsub.push(dailyEvents.on('changed', renderDailies));
+
+    const todayStrip = h('div', { class: 'stack gap-sm mt-lg' },
+      h('div', {}, h('span', { class: 'washi washi--butter' }, 'today ☀️')),
+      dailyRow,
     );
 
     // ── mood chips + grid ───────────────────────────────────
