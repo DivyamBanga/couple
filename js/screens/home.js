@@ -6,6 +6,8 @@ import { createPresencePill } from '../core/ui/presence-pill.js';
 import { connection } from '../sync/connection.js';
 import { sendNudge } from '../session/nudges.js';
 import { toast } from '../core/ui/toast.js';
+import { currentSession } from '../session/session.js';
+import { gameById } from '../games/registry.js';
 
 let unsub = [];
 
@@ -49,6 +51,23 @@ export default {
       ),
       h('button', { class: 'back-btn', 'aria-label': 'settings', onclick: () => navigate('settings'), style: 'font-size:21px;' }, '⚙️'),
     );
+
+    // ── resume banner ───────────────────────────────────────
+    const active = currentSession();
+    const resumeCard = (active?.status === 'active' && gameById(active.gameId))
+      ? h('button', {
+        class: 'sticker row gap-sm mt-md',
+        style: 'padding:14px 16px;width:100%;border:3px solid var(--butter);',
+        onclick: () => navigate(`game/${active.gameId}`),
+      },
+        h('span', { style: 'font-size:26px;' }, gameById(active.gameId).emoji),
+        h('span', { class: 'stack grow', style: 'text-align:left;' },
+          h('span', { style: 'font-weight:620;' }, `${gameById(active.gameId).name} in progress!`),
+          h('span', { class: 'hand sub', style: 'font-size:14px;' }, 'tap to jump back in'),
+        ),
+        h('span', { style: 'font-size:20px;' }, '👉'),
+      )
+      : null;
 
     // ── today strip ─────────────────────────────────────────
     const dailies = GAMES.filter((g) => g.mood === 'daily');
@@ -123,7 +142,7 @@ export default {
 
     el.append(h('div', { class: 'screen stack' },
       h('div', { class: 'row', style: 'justify-content:flex-end;margin-bottom:6px;' }, presenceSlot),
-      head, todayStrip, gamesSection, footer,
+      head, resumeCard, todayStrip, gamesSection, footer,
     ));
   },
 

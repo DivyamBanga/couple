@@ -12,12 +12,12 @@ export const MOODS = [
 
 export const GAMES = [
   // ── battles 😤 ──────────────────────────────────────────────
-  { id: 'one',        name: 'one!',              emoji: '🃏', tagline: 'our uno, but cuter',      mood: 'battle', engine: 'turnbased', status: 'soon', load: () => import('./one/game.js') },
-  { id: 'battleship', name: 'battleships',       emoji: '🚢', tagline: 'sink or be sunk',         mood: 'battle', engine: 'turnbased', status: 'soon', load: () => import('./battleship/game.js') },
-  { id: 'connect4',   name: 'connect four',      emoji: '🔴', tagline: 'drop & trap',             mood: 'battle', engine: 'turnbased', status: 'soon', load: () => import('./connect4/game.js') },
-  { id: 'dotsboxes',  name: 'dots & boxes',      emoji: '✏️', tagline: 'steal every square',      mood: 'battle', engine: 'turnbased', status: 'soon', load: () => import('./dotsboxes/game.js') },
-  { id: 'gomoku',     name: 'five in a row',     emoji: '⭐', tagline: 'line em up',              mood: 'battle', engine: 'turnbased', status: 'soon', load: () => import('./gomoku/game.js') },
-  { id: 'memory',     name: 'memory match',      emoji: '🍓', tagline: 'who forgot what',         mood: 'battle', engine: 'turnbased', status: 'soon', load: () => import('./memory/game.js') },
+  { id: 'one',        name: 'one!',              emoji: '🃏', tagline: 'our uno, but cuter',      mood: 'battle', engine: 'turnbased', status: 'ready', load: () => import('./one/game.js') },
+  { id: 'battleship', name: 'battleships',       emoji: '🚢', tagline: 'sink or be sunk',         mood: 'battle', engine: 'turnbased', status: 'ready', load: () => import('./battleship/game.js') },
+  { id: 'connect4',   name: 'connect four',      emoji: '🔴', tagline: 'drop & trap',             mood: 'battle', engine: 'turnbased', status: 'ready', load: () => import('./connect4/game.js') },
+  { id: 'dotsboxes',  name: 'dots & boxes',      emoji: '✏️', tagline: 'steal every square',      mood: 'battle', engine: 'turnbased', status: 'ready', load: () => import('./dotsboxes/game.js') },
+  { id: 'gomoku',     name: 'five in a row',     emoji: '⭐', tagline: 'line em up',              mood: 'battle', engine: 'turnbased', status: 'ready', load: () => import('./gomoku/game.js') },
+  { id: 'memory',     name: 'memory match',      emoji: '🍓', tagline: 'who forgot what',         mood: 'battle', engine: 'turnbased', status: 'ready', load: () => import('./memory/game.js') },
   { id: 'wordhunt',   name: 'word hunt',         emoji: '🔍', tagline: 'same board, more words',  mood: 'battle', engine: 'timed',     status: 'soon', load: () => import('./wordhunt/game.js') },
   { id: 'anagrams',   name: 'letter scramble',   emoji: '🔤', tagline: '60 seconds of chaos',     mood: 'battle', engine: 'timed',     status: 'soon', load: () => import('./anagrams/game.js') },
   { id: 'wordleduel', name: 'word duel',         emoji: '🟩', tagline: 'i picked your word',      mood: 'battle', engine: 'timed',     status: 'soon', load: () => import('./wordleduel/game.js') },

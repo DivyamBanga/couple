@@ -16,6 +16,8 @@
     (function () {
       var m = location.search.match(/[?&]as=(divyam|diya)\b/);
       if (m) sessionStorage.setItem('cpl.testAs', m[1]);
+      var r = location.search.match(/[?&]room=([a-z0-9-]+)/);
+      if (r) sessionStorage.setItem('cpl.testRoom', r[1]);
     })();
   </script>
 </head>

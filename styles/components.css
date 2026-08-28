@@ -330,6 +330,37 @@ textarea.input { resize: none; line-height: 1.4; }
   100% { opacity: 0; transform: translate(var(--dx, 0), var(--dy, -60px)) scale(1); }
 }
 
+/* ── in-game overlays ──────────────────────────── */
+.game-stage { position: relative; display: flex; flex-direction: column; flex: 1; }
+.game-overlay {
+  position: absolute; inset: 0;
+  z-index: 30;
+  display: flex; align-items: center; justify-content: center;
+  padding: 18px;
+  background: rgba(255, 247, 240, .72);
+  backdrop-filter: blur(4px);
+  -webkit-backdrop-filter: blur(4px);
+  border-radius: var(--r-lg);
+  animation: fade-in var(--t-med) ease both;
+}
+.game-overlay__panel {
+  width: min(340px, 100%);
+  padding: 26px 22px;
+  text-align: center;
+  animation: pop-in var(--t-slow) var(--bounce) both;
+}
+.dc-bar {
+  display: flex; align-items: center; gap: 10px;
+  padding: 10px 14px;
+  border-radius: var(--r-md);
+  background: var(--butter);
+  color: #7a4c09;
+  font-weight: 570;
+  font-size: 14px;
+  box-shadow: var(--shadow-press);
+  animation: banner-in var(--t-med) var(--bounce) both;
+}
+
 /* ── test badge ────────────────────────────────── */
 .test-badge {
   position: fixed;

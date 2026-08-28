@@ -88,9 +88,12 @@ class Connection {
     for (const [type, handler] of this.#handlers) adapter.onMessage(type, handler);
 
     try {
+      // test tabs can isolate into their own room so parallel E2E runs
+      // (and stray real devices) never cross-talk
+      const roomOverride = sessionStorage.getItem('cpl.testRoom');
       await adapter.connect({
         coupleId: COUPLE_ID,
-        roomId: ROOM_ID,
+        roomId: roomOverride ? `test-${roomOverride}` : ROOM_ID,
         roomKey: ROOM_KEY,
         relays: RELAYS,
         relayRedundancy: RELAY_REDUNDANCY,

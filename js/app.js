@@ -9,6 +9,7 @@ import { initGlobalUI } from './screens/global-ui.js';
 import { invites, sendInvite, acceptInvite, declineInvite, cancelInvite } from './session/invites.js';
 import { sendNudge } from './session/nudges.js';
 import { addRecord, recordList, mergeRecords } from './scoreboard/log.js';
+import { currentSession, sessions } from './session/session.js';
 import identityScreen from './screens/identity.js';
 import homeScreen from './screens/home.js';
 import gameHostScreen from './screens/game-host.js';
@@ -24,7 +25,7 @@ if (me) document.body.dataset.me = me;
 if (isTest()) {
   document.body.append(h('div', { class: 'test-badge' }, `test · ${me ?? '?'}`));
   // E2E harness hook — only exists in ?as= test tabs
-  window.__cpl = { connection, store, whoAmI, invites, sendInvite, acceptInvite, declineInvite, cancelInvite, sendNudge, addRecord, recordList, mergeRecords };
+  window.__cpl = { connection, store, whoAmI, invites, sendInvite, acceptInvite, declineInvite, cancelInvite, sendNudge, addRecord, recordList, mergeRecords, currentSession, sessions };
 }
 
 register('identity', identityScreen);

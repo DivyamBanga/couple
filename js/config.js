@@ -24,7 +24,6 @@ export const RELAYS = [
   'wss://nostr.oxtr.dev',
   'wss://relay.damus.io',
   'wss://relay.nostr.net',
-  'wss://nostr.bitcoiner.social',
   'wss://relay.mostr.pub',
 ];
 export const RELAY_REDUNDANCY = 5;
