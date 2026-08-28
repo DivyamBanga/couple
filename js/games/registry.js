@@ -23,12 +23,12 @@ export const GAMES = [
   { id: 'wordleduel', name: 'word duel',         emoji: '🟩', tagline: 'i picked your word',      mood: 'battle', engine: 'timed',     status: 'soon', load: () => import('./wordleduel/game.js') },
 
   // ── cozy 🛋️ ─────────────────────────────────────────────────
-  { id: 'newlywed',   name: 'do you know me?',   emoji: '💍', tagline: 'prove it.',               mood: 'cozy',   engine: 'reveal',    status: 'soon', load: () => import('./newlywed/game.js') },
-  { id: 'wyr',        name: 'would you rather',  emoji: '🤔', tagline: 'impossible choices',      mood: 'cozy',   engine: 'reveal',    status: 'soon', load: () => import('./wyr/game.js') },
-  { id: 'thisorthat', name: 'this or that',      emoji: '⚡', tagline: 'gut answers only',        mood: 'cozy',   engine: 'reveal',    status: 'soon', load: () => import('./thisorthat/game.js') },
-  { id: 'nhie',       name: 'never have i ever', emoji: '🙈', tagline: 'confess, you two',        mood: 'cozy',   engine: 'reveal',    status: 'soon', load: () => import('./nhie/game.js') },
-  { id: 'wmlt',       name: "who's more likely", emoji: '👀', tagline: 'point fingers, lovingly', mood: 'cozy',   engine: 'reveal',    status: 'soon', load: () => import('./wmlt/game.js') },
-  { id: 'trivia',     name: 'trivia battle',     emoji: '🧠', tagline: 'big brain energy',        mood: 'cozy',   engine: 'reveal',    status: 'soon', load: () => import('./trivia/game.js') },
+  { id: 'newlywed',   name: 'do you know me?',   emoji: '💍', tagline: 'prove it.',               mood: 'cozy',   engine: 'reveal',    status: 'ready', load: () => import('./newlywed/game.js') },
+  { id: 'wyr',        name: 'would you rather',  emoji: '🤔', tagline: 'impossible choices',      mood: 'cozy',   engine: 'reveal',    status: 'ready', load: () => import('./wyr/game.js') },
+  { id: 'thisorthat', name: 'this or that',      emoji: '⚡', tagline: 'gut answers only',        mood: 'cozy',   engine: 'reveal',    status: 'ready', load: () => import('./thisorthat/game.js') },
+  { id: 'nhie',       name: 'never have i ever', emoji: '🙈', tagline: 'confess, you two',        mood: 'cozy',   engine: 'reveal',    status: 'ready', load: () => import('./nhie/game.js') },
+  { id: 'wmlt',       name: "who's more likely", emoji: '👀', tagline: 'point fingers, lovingly', mood: 'cozy',   engine: 'reveal',    status: 'ready', load: () => import('./wmlt/game.js') },
+  { id: 'trivia',     name: 'trivia battle',     emoji: '🧠', tagline: 'big brain energy',        mood: 'cozy',   engine: 'reveal',    status: 'ready', load: () => import('./trivia/game.js') },
   { id: 'q36',        name: '36 questions',      emoji: '💌', tagline: 'the famous ones',         mood: 'cozy',   engine: 'viewer',    status: 'soon', load: () => import('./q36/game.js') },
   { id: 'truthordare', name: 'truth or dare',    emoji: '🌶️', tagline: 'sweet → spicy',          mood: 'cozy',   engine: 'prompt',    status: 'soon', load: () => import('./truthordare/game.js') },
 
